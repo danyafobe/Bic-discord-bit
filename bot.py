@@ -58,8 +58,10 @@ random_messages = [
     "Got it, I'm just pooping.",
     "Ha-ha-ha!",
     "Just living the bot life!",
-    "What even is life?"
-    "Greenity Greenity Greenity"
+    "What even is life?",
+    "Greenity Greenity Greenity",
+    "AAAAAAAAA",
+    "Stevie is gay"
 ]
 
 async def send_random_messages():
