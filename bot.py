@@ -58,7 +58,7 @@ random_messages = [
     "Got it, I'm just pooping.",
     "Ha-ha-ha!",
     "Just living the bot life!",
-    "What even is life?"
+    "What even is life? "
 ]
 
 async def send_random_messages(channel):
