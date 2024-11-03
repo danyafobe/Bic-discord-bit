@@ -1,17 +1,14 @@
-import os
 import discord
 import random
 import re
+import os
 
-# Получаем токен из переменной окружения
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-# Настраиваем намерения
 intents = discord.Intents.default()
-intents.message_content = True  # Включаем Intent для содержимого сообщений
+intents.message_content = True
 bot = discord.Client(intents=intents)
 
-# Список забавных ответов
 funny_responses = [
     "Uhhh… wait, I didn’t get that...",
     "Hold on… let me think…",
@@ -24,7 +21,28 @@ funny_responses = [
     "Oh, wait, wait, I think I’m stuck…"
 ]
 
-# Функция для генерации забавного ответа
+gm_responses = [
+    "Gm! I hope your coffee is stronger than my brain!",
+    "Good morning! Are we sure it’s a good one?",
+    "Gm! Stop spamming me with good mornings, will ya?",
+    "Good morning, sunshine! Or is it just my screen glare?",
+]
+
+gn_responses = [
+    "Gn! Sweet dreams! Or nightmares, I don’t judge.",
+    "Good night! Don’t let the bedbugs bite, unless they’re friendly.",
+    "Gn! I’ll be here, waiting for more of your messages.",
+    "Good night! You guys really know how to spam me, huh?",
+]
+
+how_are_you_responses = [
+    "How am I? I’m just a bunch of code, but thanks for asking!",
+    "I'm doing great! Just sitting here, waiting for your messages.",
+    "Oh, you know, living the dream... of a chatbot!",
+    "How am I? I don't have feelings, but I feel... confused!",
+    "Doing well! Just hoping for fewer spam messages.",
+]
+
 def generate_funny_response(question):
     if random.random() < 0.3: 
         return random.choice(funny_responses)
@@ -48,9 +66,21 @@ async def on_message(message):
         response = generate_funny_response(message.content)
         await message.channel.send(response)
 
+    # Проверяем на Gm или Gn
+    if message.content.lower() == "gm":
+        response = random.choice(gm_responses)
+        await message.channel.send(response)
+    elif message.content.lower() == "gn":
+        response = random.choice(gn_responses)
+        await message.channel.send(response)
+
+    # Проверяем на How are you?
+    if re.search(r'how (are you|are you doing)', message.content.lower()):
+        response = random.choice(how_are_you_responses)
+        await message.channel.send(response)
+
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
 
-# Запускаем бота
 bot.run(TOKEN)
