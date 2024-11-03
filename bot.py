@@ -2,6 +2,7 @@ import discord
 import random
 import re
 import os
+import asyncio
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -25,18 +26,27 @@ funny_responses = [
 # New reactions to "gm" and "gn"
 morning_responses = [
     "Good morning! Are we there yet? Gm gm gm gm gm!",
-    "Mornin’! Why are you awake so early? gmgmgmgmgmgmg!",
-    "Rise and shine! I think I need more coffee... gmgmgmgmg!",
+    "Mornin’! Why are you awake so early?",
+    "Rise and shine! I think I need more coffee...",
     "Put your gm in my piss jar!",
     "Good morning! Did you bring me breakfast?"
 ]
 
 night_responses = [
-    "Good night! Sleep tight, don’t let the bed bugs bite! gngngngngngngn!",
-    "Nighty night! Dream about food... gngngngngng!",
+    "Good night! Sleep tight, don’t let the bed bugs bite!",
+    "Nighty night! Dream about food...!",
     "Sweet dreams! Don’t forget to count sheep... gngngngngngngn!",
     "Put your gn in my piss jar!",
     "Good night! If you hear strange noises, it's just me thinking about life."
+]
+
+random_messages = [
+    "I don't care.",
+    "Okay, I’m off to take a shit.",
+    "Hahaha!",
+    "I love you mate",
+    "Fuck off!!",
+    "What even is life?",
 ]
 
 def generate_funny_response(question):
@@ -58,6 +68,12 @@ def generate_funny_response(question):
     else:
         return "Hmm… tough question… not sure I got an answer."
 
+async def send_random_messages(channel):
+    while True:
+        await asyncio.sleep(random.randint(300, 600))  # Wait for a random interval (5 to 10 minutes)
+        message = random.choice(random_messages)
+        await channel.send(message)
+
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
@@ -78,5 +94,11 @@ async def on_message(message):
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
+    # Start the random messages task in the channel where the bot is first available
+    for guild in bot.guilds:
+        for channel in guild.text_channels:
+            if channel.permissions_for(guild.me).send_messages:
+                bot.loop.create_task(send_random_messages(channel))
+                return
 
 bot.run(TOKEN)
