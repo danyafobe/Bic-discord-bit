@@ -1,19 +1,17 @@
+import os
 import discord
 import random
 import re
-import os
 
-# Загружаем токен из переменной окружения
+# Получаем токен из переменной окружения
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-# Устанавливаем намерения
+# Настраиваем намерения
 intents = discord.Intents.default()
-intents.message_content = True  # Это необходимо для получения текстовых сообщений
-
-# Создаем экземпляр клиента
+intents.message_content = True  # Включаем Intent для содержимого сообщений
 bot = discord.Client(intents=intents)
 
-# Список смешных ответов
+# Список забавных ответов
 funny_responses = [
     "Uhhh… wait, I didn’t get that...",
     "Hold on… let me think…",
@@ -26,9 +24,9 @@ funny_responses = [
     "Oh, wait, wait, I think I’m stuck…"
 ]
 
-# Функция для генерации смешного ответа
+# Функция для генерации забавного ответа
 def generate_funny_response(question):
-    if random.random() < 0.3:  # 30% вероятности выдать смешной ответ
+    if random.random() < 0.3: 
         return random.choice(funny_responses)
     elif "how" in question.lower():
         return "Well… somehow, I guess."
@@ -41,17 +39,15 @@ def generate_funny_response(question):
     else:
         return "Hmm… tough question… not sure I got an answer."
 
-# Событие, когда бот получает сообщение
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:  # Игнорируем собственные сообщения
+    if message.author == bot.user:
         return
 
-    if re.search(r'\?$', message.content):  # Проверяем, заканчивается ли сообщение вопросительным знаком
-        response = generate_funny_response(message.content)  # Генерируем ответ
-        await message.channel.send(response)  # Отправляем ответ в канал
+    if re.search(r'\?$', message.content):
+        response = generate_funny_response(message.content)
+        await message.channel.send(response)
 
-# Событие, когда бот готов
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
