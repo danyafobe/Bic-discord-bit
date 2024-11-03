@@ -63,7 +63,7 @@ random_messages = [
 
 async def send_random_messages(channel):
     while True:
-        await asyncio.sleep(random.randint(300, 600))  # Random wait time between 5 and 10 minutes
+        await asyncio.sleep(random.randint(1200, 1800))  # Random wait time between 20 and 30 minutes
         message = random.choice(random_messages)
         await channel.send(message)
 
