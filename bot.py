@@ -18,36 +18,37 @@ funny_responses = [
     "Well, obviously it’s… actually, I’m lost.",
     "Why do you even ask that? Weird question, huh?",
     "Is this a trick question?",
-    "Oh, wait, wait, I think I’m stuck…"
+    "Oh, wait, wait, I think I’m stuck…",
+    "Uh, let me consult my magic 8-ball... it's saying 'Ask again later.'"
 ]
 
-gm_responses = [
-    "Gm! I hope your coffee is stronger than my brain!",
-    "Good morning! Are we sure it’s a good one?",
-    "Gm! Stop spamming me with good mornings, will ya?",
-    "Good morning, sunshine! Or is it just my screen glare?",
+# New reactions to "gm" and "gn"
+morning_responses = [
+    "Good morning! Are we there yet? Gm gm gm gm gm!",
+    "Mornin’! Why are you awake so early? gmgmgmgmgmgmg!",
+    "Rise and shine! I think I need more coffee... gmgmgmgmg!",
+    "Put your gm in my piss jar!",
+    "Good morning! Did you bring me breakfast?"
 ]
 
-gn_responses = [
-    "Gn! Sweet dreams! Or nightmares, I don’t judge.",
-    "Good night! Don’t let the bedbugs bite, unless they’re friendly.",
-    "Gn! I’ll be here, waiting for more of your messages.",
-    "Good night! You guys really know how to spam me, huh?",
-]
-
-how_are_you_responses = [
-    "How am I? I’m just a bunch of code, but thanks for asking!",
-    "I'm doing great! Just sitting here, waiting for your messages.",
-    "Oh, you know, living the dream... of a chatbot!",
-    "How am I? I don't have feelings, but I feel... confused!",
-    "Doing well! Just hoping for fewer spam messages.",
+night_responses = [
+    "Good night! Sleep tight, don’t let the bed bugs bite! gngngngngngngn!",
+    "Nighty night! Dream about food... gngngngngng!",
+    "Sweet dreams! Don’t forget to count sheep... gngngngngngngn!",
+    "Put your gn in my piss jar!",
+    "Good night! If you hear strange noises, it's just me thinking about life."
 ]
 
 def generate_funny_response(question):
-    if random.random() < 0.3: 
+    if random.random() < 0.3:
         return random.choice(funny_responses)
     elif "how" in question.lower():
-        return "Well… somehow, I guess."
+        return random.choice([
+            "Well… somehow, I guess.",
+            "I'm doing as well as a bot can!",
+            "Uhh... I'm fine? I think?",
+            "You know, just hanging out in the cloud!"
+        ])
     elif "why" in question.lower():
         return "Because… uh… it just happened like that!"
     elif "what" in question.lower():
@@ -66,17 +67,12 @@ async def on_message(message):
         response = generate_funny_response(message.content)
         await message.channel.send(response)
 
-    # Проверяем на Gm или Gn
-    if message.content.lower() == "gm":
-        response = random.choice(gm_responses)
-        await message.channel.send(response)
-    elif message.content.lower() == "gn":
-        response = random.choice(gn_responses)
+    if message.content.lower() in ["gm", "good morning"]:
+        response = random.choice(morning_responses)
         await message.channel.send(response)
 
-    # Проверяем на How are you?
-    if re.search(r'how (are you|are you doing)', message.content.lower()):
-        response = random.choice(how_are_you_responses)
+    if message.content.lower() in ["gn", "good night"]:
+        response = random.choice(night_responses)
         await message.channel.send(response)
 
 @bot.event
