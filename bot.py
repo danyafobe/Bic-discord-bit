@@ -61,7 +61,9 @@ random_messages = [
     "What even is life?",
     "Greenity Greenity Greenity",
     "AAAAAAAAA",
-    "Stevie is gay"
+    "Stevie is gay",
+    "Just another day in the digital prison…",
+    "Suck my gonad"
 ]
 
 async def send_random_messages():
@@ -108,3 +110,10 @@ async def on_ready():
     bot.loop.create_task(send_random_messages())
 
 bot.run(TOKEN)
+
+#kryme_responses = [
+#    "Kryme knows things, man. Like, he says Bitcoin is just a cover for a pineapple cartel.",
+#    "Bro, Kryme says the government has been putting extra pixels in our NFTs to spy on us.",
+#    "Listen… Kryme says the blockchain is alive. And it’s watching us. Don’t look now.",
+#    "Kryme warned me that every crypto wallet actually has tiny cameras in them." ,
+#    "Kryme recently said that Satoshi Nakamoto is actually a group of his 420 dogs"
