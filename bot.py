@@ -48,7 +48,7 @@ greetings_responses = {
 nev_responses = [
     "This fuckin Nev keeps putting me on the pfp.",
     "Nev, my creator, my daddy... I hate him.",
-    "When will this fokin Nev give me my jars back?",
+    "When will this Nev give me my jars back?",
     "Nev is definitely not keeping me as a slave 🖐️✊🖐️✊",
     "Don't tell Nev that my hundred is hidden in his alive 1111 picture"
 ]
@@ -58,16 +58,20 @@ random_messages = [
     "Got it, I'm just pooping.",
     "Ha-ha-ha!",
     "Just living the bot life!",
-    "What even is life? "
+    "What even is life?"
 ]
 
-async def send_random_messages(channel):
-    print(f"Started sending random messages in {channel.name}")
-    while True:
-        await asyncio.sleep(random.randint(1200, 1800))  # Random wait time between 20 and 30 minutes
-        message = random.choice(random_messages)
-        await channel.send(message)
-        print(f"Sent random message: {message}")
+async def send_random_messages():
+    await bot.wait_until_ready()
+    while not bot.is_closed():
+        for guild in bot.guilds:
+            for channel in guild.text_channels:
+                if channel.permissions_for(guild.me).send_messages:
+                    message = random.choice(random_messages)
+                    await channel.send(message)
+                    print(f"Sent random message: {message}")
+                    await asyncio.sleep(random.randint(1200, 1800))  # Random delay between 20 and 30 minutes
+        await asyncio.sleep(10)  # Small pause to restart loop if needed
 
 @bot.event
 async def on_message(message):
@@ -97,16 +101,7 @@ async def on_message(message):
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
-    for guild in bot.guilds:
-        print(f"Checking channels in guild: {guild.name}")
-        for channel in guild.text_channels:
-            print(f"Found channel: {channel.name}")
-            if channel.permissions_for(guild.me).send_messages:
-                print(f"Bot has permission to send messages in {channel.name}. Starting random messages...")
-                bot.loop.create_task(send_random_messages(channel))
-                return
-            else:
-                print(f"Bot does not have permission to send messages in {channel.name}.")
-    print("No suitable channel found to send random messages.")
+    # Starting random message sending task in the background
+    bot.loop.create_task(send_random_messages())
 
 bot.run(TOKEN)
