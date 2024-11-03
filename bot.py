@@ -48,7 +48,7 @@ greetings_responses = {
 nev_responses = [
     "This fuckin Nev keeps putting me on the pfp.",
     "Nev, my creator, my daddy... I hate him.",
-    "When will this Nev give me my jars back?",
+    "When will this fokin Nev give me my jars back?",
     "Nev is definitely not keeping me as a slave 🖐️✊🖐️✊",
     "Don't tell Nev that my hundred is hidden in his alive 1111 picture"
 ]
