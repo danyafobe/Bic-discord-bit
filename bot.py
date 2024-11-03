@@ -62,10 +62,12 @@ random_messages = [
 ]
 
 async def send_random_messages(channel):
+    print(f"Started sending random messages in {channel.name}")
     while True:
         await asyncio.sleep(random.randint(1200, 1800))  # Random wait time between 20 and 30 minutes
         message = random.choice(random_messages)
         await channel.send(message)
+        print(f"Sent random message: {message}")
 
 @bot.event
 async def on_message(message):
@@ -96,9 +98,15 @@ async def on_message(message):
 async def on_ready():
     print(f'Logged in as {bot.user}')
     for guild in bot.guilds:
+        print(f"Checking channels in guild: {guild.name}")
         for channel in guild.text_channels:
+            print(f"Found channel: {channel.name}")
             if channel.permissions_for(guild.me).send_messages:
+                print(f"Bot has permission to send messages in {channel.name}. Starting random messages...")
                 bot.loop.create_task(send_random_messages(channel))
                 return
+            else:
+                print(f"Bot does not have permission to send messages in {channel.name}.")
+    print("No suitable channel found to send random messages.")
 
 bot.run(TOKEN)
